@@ -20,7 +20,7 @@ scene.add( light );
 var plz_wrk;
 
 var loader = new THREE.PLYLoader();
-loader.load( './models/plz_wrk.ply', function ( geometry ) {
+loader.load( '../src/models/plz_wrk.ply', function ( geometry ) {
     var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
     var mesh = new THREE.Mesh( geometry, material );
     plz_wrk = mesh;
