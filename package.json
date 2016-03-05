@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --port 8000 --hot --inline --progress --colors"
   },
-  "repository": {
+    "repository": {
     "type": "git",
     "url": "git+https://github.com/Pastromhaug/cloud-comp-front-end.git"
   },
