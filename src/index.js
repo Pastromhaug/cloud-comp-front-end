@@ -1,6 +1,6 @@
 
 // scene, camera, rendering setup
-var scene = new THREE.Scene();
+//var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
 // Create VRControls in addition to FirstPersonVRControls.
@@ -46,6 +46,14 @@ loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
  } );
 //-------------------------------------------------------
 
+//------------------Data Sending-------------------------
+var quat = new THREE.Quaternion(0,1,0,0);
+function sendNow(){
+  sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, quat);
+}
+var run = setInterval(sendNow, 100);
+
+//-------------------------------------------------------
 
 // Optionally enable vertical movement.
 fpVrControls.verticalMovement = true;
