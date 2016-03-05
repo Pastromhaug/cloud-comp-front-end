@@ -1,4 +1,4 @@
-var socket = new WebSocket('ws://10.148.4.124:7569');
+var socket = new WebSocket('ws://10.148.3.37:7569');
 var socketOpenFlag = false;
 var id = null;
 var cubeList = [];
