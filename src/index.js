@@ -35,7 +35,10 @@ var loader = new THREE.PLYLoader();
 //-------------------------------------------------------
 
 //--------------PLY mesh rendering----------------------
-loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
+
+
+//loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
+loader.load( "../src/models/" + query, function ( geometry ) {
     var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
     var mesh = new THREE.Mesh( geometry, material );
     plz_wrk = mesh;
@@ -49,9 +52,9 @@ loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
 //------------------Data Sending-------------------------
 //var quat = new THREE.Quaternion(0,1,0,0);
 function sendNow(){
-  sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, camera.quaternion);
+  //sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, camera.quaternion);
 }
-var run = setInterval(sendNow, 1000);
+var run = setInterval(sendNow, 16);
 
 //-------------------------------------------------------
 

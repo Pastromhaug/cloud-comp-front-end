@@ -1,41 +1,84 @@
-var socket = new WebSocket('ws://10.148.3.37:7569');
-var socketOpenFlag = false;
-var id = null;
+// Cube Variables
 var cubeList = [];
 var cubeGeometry = new THREE.BoxGeometry( 0.25,0.25,0.25 );
 var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var scene = new THREE.Scene();
+var id = null;
 
-socket.onopen = function() {
+// URL Parsing
+var nameStart = window.location.href.indexOf("?") + 6;
+var nameEnd = window.location.href.indexOf("&");
+var query = window.location.href.slice(nameStart, nameEnd) + ".ply";
+console.log("File: " + query);
+var group = window.location.href.slice(nameEnd+7);
+console.log("ID: " + group);
+
+//Socket info
+var ip = "ws://10.148.0.184"
+var loadBalancePort = "7000"
+var roomPort = null;
+var socket = null;
+var initSocket = new WebSocket(ip+":"+ loadBalancePort+"/");
+var mapName = "csugLab";
+var socketOpenFlag = false;
+
+initSocket.onopen = function() {
+  console.log("Connected to Load Balancer");
+  initSocket.send(group);
+}
+
+initSocket.onmessage = function(event) {
+  console.log("Got Port: "+event.data);
+  roomIP = event.data//.slice(11);
+  var ipAndPort = ip + ":" + roomIP + "/";
+  if(roomIP != null){
+    initSocket.close();
+    createSocket(ipAndPort);
+
+  }
+  else{
+    initSocket.send("changeRoom:"+mapName);
+  }
+}
+
+initSocket.onclose = function(){
+  console.log("Closed connection with Load Balancer");
+}
+
+function createSocket(addr){
+  socket = new WebSocket(addr);
+  socket.onopen = function() {
     console.log("Socket's open!")
     socketOpenFlag = true;
-}
-socket.onmessage = function (event) {
-    //console.log(event.data);
-    data = event.data;
-    if (id == null){
-      id = data;
-      console.log('id set to ' + id);
+  }
+
+  socket.onmessage = function (event) {
+      //console.log(event.data);
+      data = event.data;
+      if (id == null){
+        id = data;
+        console.log('id set to ' + id);
+      }
+      else {
+        data = data.replace(/\s+/g, '');
+        //console.log(data);
+        data = parseInput(data);
+        //console.log(data);
+        updateCubes(data);
+      }
     }
-    else {
-      data = data.replace(/\s+/g, '');
-    //  console.log(data);
-      data = parseInput(data);
-      //console.log(data);
-      updateCubes(data);
+
+    socket.onclose = function(){
+      socketOpenFlag = false;
+      id = null;
+      console.log("Socket's closed :(");
     }
-}
-socket.onclose = function(){
-    socketOpenFlag = false;
-    id = null;
-    console.log("Socket's closed :(");
 }
 
 function parseInput(data){
   data = data.slice(2,data.length-2);
-
   data = data.split('\",\"');
-  datum = data[0].slice(1,data[0].length-1).split('\":\"');
+  //datum = data[0].slice(1,data[0].length-1).split('\":\"');
   var j;
   for (i=0; i<data.length;i++){
     data[i] = data[i].split(/[":"|,]+/);
@@ -67,12 +110,13 @@ function updateCubes (cubes){
     mesh.rotation.y = parseFloat(cubes[i][5]);
     mesh.rotation.z = parseFloat(cubes[i][6]);
   }
-  var j = i;
+  //var j = i;
   //for (i; i < cubeList.length; i++ ){
-    //scene.remove(cubeList[i]);
+  //  scene.remove(cubeList[i]);
   //}
   //cubeList = cubeList.slice(0,j+1);
 }
+
 function convertQuat(q1){
   var sqw = q1.w*q1.w;
   var sqx = q1.x*q1.x;
@@ -98,6 +142,7 @@ function convertQuat(q1){
   bank = Math.atan2(2*q1.x*q1.w-2*q1.y*q1.z , -sqx + sqy - sqz + sqw)
   return {'x': heading, 'y': attitude, 'z': bank};
 }
+
 function sendData(position,quaternion){
   if (!socketOpenFlag || id == null){
     return;
@@ -110,14 +155,7 @@ function sendData(position,quaternion){
     orient.x   + ',' +
     orient.y   + ',' +
     orient.z;
-//  var toSend = {
-//    id: id,
-//    pose: poseData
-//  };
 
   var toSend = "{ " + id + " : " + poseData + " } ";
-//  console.log(toSend);
-  //console.log(toSend);
   socket.send(toSend);
-  //socket.send("alskdjf;laskdjfl;askdjfl;askdjfa;lskdjfa;lskdjfa;slkdjfa;lskdjfa;lskdfjas;ldkfjas;ldkfjasd;flkajsdf;lk");
 }
