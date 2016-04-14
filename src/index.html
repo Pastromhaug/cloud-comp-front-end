@@ -80,7 +80,7 @@
                <input type="radio" id="list-option-1" class="mdl-radio__button" name="options" value="1" checked />
              </div>
              <div class="mdl-list__item">
-               <span>Duffield</span>
+               <span>Please Work</span>
                <input type="radio" id="list-option-2" class="mdl-radio__button" name="options" value="1" unchecked />
              </div>
              <div class="mdl-list__item">
@@ -110,10 +110,14 @@
   </body>
 
   <script>
+    const name_to_file_name = {
+        "Gates Basement": "gateslab3",
+        "Please Work": "plz_wrk"
+    };
     function generate_id() {
       const number = Math.floor((Math.random() * 1000000) + 1);
       var room_name = $('.mdl-radio__button:checked').prev().text();
-      room_name = room_name.toLowerCase().replace(' ', '_');
+      room_name = name_to_file_name[room_name];
       return room_name + '-' + number;
     }
 
