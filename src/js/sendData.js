@@ -5,17 +5,23 @@ var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var scene = new THREE.Scene();
 var id = null;
 
-// URL Parsing
-var nameStart = window.location.href.indexOf("?") + 6;
-var nameEnd = window.location.href.indexOf("&");
-var query = window.location.href.slice(nameStart, nameEnd) + ".ply";
-console.log("File: " + query);
-var group = window.location.href.slice(nameEnd+7);
-console.log("ID: " + group);
+// Getting data from homepage
+// var roomFilename;
+// var group;
+//-------- If we use GET request, use this code-----------
+// function getGET(){
+//   var nameStart = window.location.href.indexOf("?") + 6;
+//   var nameEnd = window.location.href.indexOf("&");
+//   roomFilename = window.location.href.slice(nameStart, nameEnd) + ".ply";
+//   console.log("File: " + roomFilename);
+//   group = window.location.href.slice(nameEnd+7);
+//   console.log("ID: " + group);
+// }
+// getGET();
 
 //Socket info
-var ip = "ws://10.148.0.184"
-var loadBalancePort = "7000"
+var ip = "ws://10.148.6.104"  //Change this to server IP
+var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
 var initSocket = new WebSocket(ip+":"+ loadBalancePort+"/");
@@ -24,7 +30,7 @@ var socketOpenFlag = false;
 
 initSocket.onopen = function() {
   console.log("Connected to Load Balancer");
-  initSocket.send(group);
+  initSocket.send("asdafd");
 }
 
 initSocket.onmessage = function(event) {
