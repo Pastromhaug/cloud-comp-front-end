@@ -6,18 +6,18 @@ var scene = new THREE.Scene();
 var id = null;
 
 // Getting data from homepage
-// var roomFilename;
-// var group;
-//-------- If we use GET request, use this code-----------
-// function getGET(){
-//   var nameStart = window.location.href.indexOf("?") + 6;
-//   var nameEnd = window.location.href.indexOf("&");
-//   roomFilename = window.location.href.slice(nameStart, nameEnd) + ".ply";
-//   console.log("File: " + roomFilename);
-//   group = window.location.href.slice(nameEnd+7);
-//   console.log("ID: " + group);
-// }
-// getGET();
+var roomFilename;
+var group;
+
+function getFromUrl(){
+  var nameStart = window.location.href.indexOf("?") + 3;
+  var nameEnd = window.location.href.indexOf("-");
+  roomFilename = window.location.href.slice(nameStart, nameEnd) + ".ply";
+  console.log("File: " + roomFilename);
+  group = window.location.href.slice(nameStart);
+  console.log("ID: " + group);
+}
+getFromUrl();
 
 //Socket info
 var ip = "ws://10.148.0.23"  //Change this to server IP
