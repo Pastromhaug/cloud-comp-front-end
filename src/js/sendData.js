@@ -67,7 +67,7 @@ function createSocket(addr){
       }
       else {
         data = data.replace(/\s+/g, '');
-        //console.log(data);
+        console.log(data);
         data = parseInput(data);
         //console.log(data);
         updateCubes(data);
