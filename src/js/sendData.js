@@ -10,7 +10,7 @@ var roomFilename;
 var group;
 
 function getFromUrl(){
-  var nameStart = window.location.href.indexOf("?") + 3;
+  var nameStart = window.location.href.indexOf("?") + 4;
   var nameEnd = window.location.href.indexOf("-");
   roomFilename = window.location.href.slice(nameStart, nameEnd) + ".ply";
   console.log("File: " + roomFilename);

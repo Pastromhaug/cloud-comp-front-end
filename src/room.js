@@ -35,8 +35,8 @@ var loader = new THREE.PLYLoader();
 
 //--------------PLY mesh rendering----------------------
 
-loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
-//loader.load( "../src/models/" + query, function ( geometry ) {
+//loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
+loader.load( "../src/models/" + roomFilename, function ( geometry ) {
     var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
     var mesh = new THREE.Mesh( geometry, material );
     plz_wrk = mesh;
