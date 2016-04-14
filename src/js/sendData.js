@@ -20,7 +20,7 @@ function getFromUrl(){
 getFromUrl();
 
 //Socket info
-var ip = "ws://10.148.0.23"  //Change this to server IP
+var ip = "ws://10.148.4.171"  //Change this to server IP
 var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
@@ -30,7 +30,7 @@ var socketOpenFlag = false;
 
 initSocket.onopen = function() {
   console.log("Connected to Load Balancer");
-  initSocket.send("asdafd");
+  initSocket.send(group);
 }
 
 initSocket.onmessage = function(event) {
