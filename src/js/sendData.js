@@ -20,7 +20,7 @@ var id = null;
 // getGET();
 
 //Socket info
-var ip = "ws://10.148.6.104"  //Change this to server IP
+var ip = "ws://10.148.0.23"  //Change this to server IP
 var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
