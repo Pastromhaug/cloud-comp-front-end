@@ -20,7 +20,7 @@ function getFromUrl(){
 getFromUrl();
 
 //Socket info
-var ip = "ws://10.148.4.171"  //Change this to server IP
+var ip = "ws://10.148.10.8"  //Change this to server IP
 var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
@@ -39,8 +39,7 @@ initSocket.onmessage = function(event) {
   var ipAndPort = ip + ":" + roomIP + "/";
   if(roomIP != null){
     initSocket.close();
-    createSocket(ipAndPort);
-
+    setTimeout(function(){ createSocket(ipAndPort);}, 500);
   }
   else{
     initSocket.send("changeRoom:"+mapName);
