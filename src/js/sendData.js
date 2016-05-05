@@ -4,23 +4,35 @@ var cubeGeometry = new THREE.BoxGeometry( 0.25,0.25,0.25 );
 var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var scene = new THREE.Scene();
 var id = null;
+var objLoader = new THREE.OBJLoader();
+var mtlLoader = new THREE.MTLLoader();
 
 // Getting data from homepage
 var roomFilename;
 var group;
 
 function getFromUrl(){
-  var nameStart = window.location.href.indexOf("?") + 4;
-  var nameEnd = window.location.href.indexOf("-");
-  roomFilename = window.location.href.slice(nameStart, nameEnd) + ".ply";
+  var url = window.location.href;
+  var infoStart = url.indexOf("?");
+  var join = url.slice(infoStart+4, infoStart+5);
+  console.log("Join: " + join);
+  var nameStart = infoStart + 6;
+  var roomInfo = url.slice(nameStart);
+  var nameEnd = roomInfo.indexOf("-");
+  roomFilename = roomInfo.slice(0, nameEnd) + ".ply";
   console.log("File: " + roomFilename);
-  group = window.location.href.slice(nameStart);
+  if (join == "j"){
+    group = roomInfo.slice(nameEnd+1) + join;
+  }
+  else{
+    group = roomInfo.slice(nameEnd+1);
+  }
   console.log("ID: " + group);
 }
 getFromUrl();
 
 //Socket info
-var ip = "ws://10.148.10.8"  //Change this to server IP
+var ip = "ws://localhost"  //Change this to server IP
 var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
@@ -95,20 +107,36 @@ function parseInput(data){
   return data
 }
 
+loadHugh(){
+  mtlLoader.load('./models/hughLaurie/house.mtl', function(materials){
+    materials.preload();
+    objLoader.setMaterials(materials);
+    objLoader.load('./models/hughLaurie/house.obj', function(geometry){
+      geometry.scale.set(.001,.001,.001);
+      cubeList.push(geometry);
+      scene.add(geometry);
+      mesh = geometry;
+
+    });
+  });
+}
+
 //Update cube positions
 function updateCubes (cubes){
   for(var i = 0; i<cubes.length; i++){
     var lst = null;
     var mesh;
     if(!cubeList[i]){
+      loadHugh();
       //var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
       //mesh.dynamic = true;
-      objLoader.load('../models/hughLaurie/house.obj', function(geometry){
-        cubeList.push(geometry);
-        scene.add(geometry);
-        mesh = geometry;
-
-        });
+      // objLoader.load('./models/hughLaurie/house.obj', function(geometry){
+      //   geometry.scale.set(.001,.001,.001);
+      //   cubeList.push(geometry);
+      //   scene.add(geometry);
+      //   mesh = geometry;
+      //
+      //   });
       }
       else{
         var mesh = cubeList[i];
