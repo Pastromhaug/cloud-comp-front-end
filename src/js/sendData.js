@@ -107,19 +107,19 @@ function parseInput(data){
   return data
 }
 
-//loadHugh(){
-  //mtlLoader.load('./models/hughLaurie/house.mtl', function(materials){
-    //materials.preload();
-    objLoader.setMaterials(materials);
-    objLoader.load('./models/hughLaurie/house.obj', function(geometry){
-      geometry.scale.set(.001,.001,.001);
-      cubeList.push(geometry);
-      scene.add(geometry);
-      mesh = geometry;
-
-    });
-  });
-}
+// //loadHugh(){
+//   //mtlLoader.load('./models/hughLaurie/house.mtl', function(materials){
+//     //materials.preload();
+//     objLoader.setMaterials(materials);
+//     objLoader.load('./models/hughLaurie/house.obj', function(geometry){
+//       geometry.scale.set(.001,.001,.001);
+//       cubeList.push(geometry);
+//       scene.add(geometry);
+//       mesh = geometry;
+//
+//     });
+//   });
+// }
 
 //Update cube positions
 function updateCubes (cubes){
@@ -127,16 +127,16 @@ function updateCubes (cubes){
     var lst = null;
     var mesh;
     if(!cubeList[i]){
-      loadHugh();
+      //loadHugh();
       //var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
       //mesh.dynamic = true;
-      // objLoader.load('./models/hughLaurie/house.obj', function(geometry){
-      //   geometry.scale.set(.001,.001,.001);
-      //   cubeList.push(geometry);
-      //   scene.add(geometry);
-      //   mesh = geometry;
-      //
-      //   });
+      objLoader.load('./models/hughLaurie/house.obj', function(geometry){
+        geometry.scale.set(.001,.001,.001);
+        cubeList.push(geometry);
+        scene.add(geometry);
+        mesh = geometry;
+
+        });
       }
       else{
         var mesh = cubeList[i];
