@@ -1,0 +1,63 @@
+newmtl Texture0
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_eyeL_hi.tif
+
+newmtl Texture1
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_eyeR_hi.tif
+
+newmtl Texture2
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_skin_hi.tif
+
+newmtl Texture3
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_sock.tif
+
+newmtl Texture4
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_teethLower.tif
+
+newmtl Texture5
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_teethUpper.tif
+
+newmtl Texture6
+    Ns 20
+    d 1
+    illum 2
+    Kd 0.7 0.7 0.7
+    Ks 0 0 0
+    Ka 0 0 0
+    map_Kd house_tongue.tif
+
