@@ -32,7 +32,7 @@ function getFromUrl(){
 getFromUrl();
 
 //Socket info
-var ip = "ws://localhost"  //Change this to server IP
+var ip = "ws://10.148.8.211"  //Change this to server IP
 var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
@@ -107,9 +107,9 @@ function parseInput(data){
   return data
 }
 
-loadHugh(){
-  mtlLoader.load('./models/hughLaurie/house.mtl', function(materials){
-    materials.preload();
+//loadHugh(){
+  //mtlLoader.load('./models/hughLaurie/house.mtl', function(materials){
+    //materials.preload();
     objLoader.setMaterials(materials);
     objLoader.load('./models/hughLaurie/house.obj', function(geometry){
       geometry.scale.set(.001,.001,.001);
