@@ -3,14 +3,6 @@
  */
 
 module.exports = {
-    entry: {
-        javascript: "./src/room.js",
-        html: "./src/index.html"
-    },
-    output: {
-        path: __dirname +"/dist",
-        filename: "./bundle.js"
-    },
     module: {
         loaders: [
             {
@@ -27,5 +19,8 @@ module.exports = {
                 loader: "style-loader!css-loader"
             }
         ]
+    },
+    node: {
+        fs: "empty"
     }
 };

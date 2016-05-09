@@ -47,6 +47,8 @@ container.appendChild( renderer.domElement );
 
 controls = new THREE.VRControls( camera );
 effect = new THREE.VREffect( renderer );
+var fpVrControls = new THREE.FirstPersonVRControls(camera, scene);
+fpVrControls.verticalMovement = true;
 
 if ( WEBVR.isAvailable() === true ) {
 
@@ -54,27 +56,23 @@ if ( WEBVR.isAvailable() === true ) {
 }
 
 animate();
-
-function animate() {
+function animate(timestamp = null) {
     requestAnimationFrame( animate );
-    render();
+    render(timestamp);
 
 }
 
-function render() {
+function render(timestamp) {
     controls.update();
+    //fpVrControls.update(timestamp);
     effect.render( scene, camera );
 }
-//-------------------------------------------------------
 
 //------------------Data Sending-------------------------
 //var quat = new THREE.Quaternion(0,1,0,0);
 function sendNow(){
-  sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, camera.quaternion);
+    sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, camera.quaternion);
 }
 var run = setInterval(sendNow, 16);
 
 //-------------------------------------------------------
-
-// Optionally enable vertical movement.
-fpVrControls.verticalMovement = true;
