@@ -1,64 +1,70 @@
-//set rooms background
-document.body.style.background = '#000000';
+if ( WEBVR.isLatestAvailable() === false ) {
 
-// scene, camera, rendering setup
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-var renderer = new THREE.WebGLRenderer();
-// Create VRControls in addition to FirstPersonVRControls.
-var vrControls = new THREE.VRControls(camera);
-var fpVrControls = new THREE.FirstPersonVRControls(camera, scene);
-var effect = new THREE.VREffect(renderer);
-effect.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild( WEBVR.getMessage() );
 
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+}
 
-//hide the renderer
-renderer.domElement.style.display="none";
-renderer.domElement.id="canvasVR";
+var container;
+var camera, scene, renderer;
+var effect, controls;
+
+
+container = document.createElement( 'div' );
+document.body.appendChild( container );
+
+scene = new THREE.Scene();
+
+camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 10 );
+scene.add( camera );
 
 var light = new THREE.AmbientLight( 0xffffff );
 scene.add( light );
 camera.position.z = 20;
-var plz_wrk;
 
+var plz_wrk;
 var loader = new THREE.PLYLoader();
 
-//create a spinner
-var spinner = new Spinner().spin()
-document.body.appendChild(spinner.el)
+try{loader.load( "../src/models/" + roomFilename, function ( geometry ) {
+    var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
+    var mesh = new THREE.Mesh( geometry, material );
+    plz_wrk = mesh;
 
-// ------------ Point cloud rendering---------------------
-//loader.addEventListener('load', function (event) {
-//    var geometry = event.content;
-//
-//    var material = new THREE.PointsMaterial({ vertexColors: true, size: 0.004 });
-//    var mesh = new THREE.Points(geometry, material);
-//    scene.add(mesh);
-//    plz_wrk = mesh;
-//    plz_wrk.rotation.x += -Math.PI / 2;
-//    plz_wrk.rotation.z += Math.PI + .3;
-//    plz_wrk.rotation.y += Math.PI;
-//});
-//loader.load("../src/models/gateslab3.ply");
-//-------------------------------------------------------
-
-//--------------PLY mesh rendering----------------------
-
-//loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
-loader.load( "../src/models/" + roomFilename, function ( geometry ) {
-      var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
-      var mesh = new THREE.Mesh( geometry, material );
-      plz_wrk = mesh;
-
-      scene.add( mesh );
-      plz_wrk.rotation.x += -Math.PI / 2;
-      plz_wrk.rotation.z += Math.PI / 2 + .5;
-
-    document.getElementsByClassName("spinner")[0].style.display="none";
-    renderer.domElement.style.display="block";
+    scene.add( mesh );
+    plz_wrk.rotation.x += -Math.PI / 2;
+    plz_wrk.rotation.z += Math.PI / 2 + .5;
   } );
+}
+catch(err){
+  alert("Invalid Room Name");
+}
 
+renderer = new THREE.WebGLRenderer( { antialias: true } );
+renderer.setClearColor( 0x101010 );
+renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.sortObjects = false;
+container.appendChild( renderer.domElement );
+
+controls = new THREE.VRControls( camera );
+effect = new THREE.VREffect( renderer );
+
+if ( WEBVR.isAvailable() === true ) {
+
+    document.body.appendChild( WEBVR.getButton( effect ) );
+}
+
+animate();
+
+function animate() {
+    requestAnimationFrame( animate );
+    render();
+
+}
+
+function render() {
+    controls.update();
+    effect.render( scene, camera );
+}
 //-------------------------------------------------------
 
 //------------------Data Sending-------------------------
@@ -72,14 +78,3 @@ var run = setInterval(sendNow, 16);
 
 // Optionally enable vertical movement.
 fpVrControls.verticalMovement = true;
-function animate (timestamp) {
-    vrControls.update();
-    fpVrControls.update(timestamp);
-}
-
-function render() {
-    requestAnimationFrame( animate );
-    requestAnimationFrame( render );
-    renderer.render(scene, camera);
-}
-requestAnimationFrame( render );

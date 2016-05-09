@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --port 8000 --hot --inline --progress --colors",
+    "start": "webpack-dev-server --host 10.148.0.114 --port 8000 --hot --inline --progress --colors",
     "build": "webpack"
   },
   "repository": {
