@@ -46,7 +46,7 @@ document.body.appendChild(spinner.el)
 //--------------PLY mesh rendering----------------------
 
 //loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
-try{loader.load( "../src/models/" + roomFilename, function ( geometry ) {
+loader.load( "../src/models/" + roomFilename, function ( geometry ) {
       var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
       var mesh = new THREE.Mesh( geometry, material );
       plz_wrk = mesh;
@@ -58,10 +58,7 @@ try{loader.load( "../src/models/" + roomFilename, function ( geometry ) {
     document.getElementsByClassName("spinner")[0].style.display="none";
     renderer.domElement.style.display="block";
   } );
-}
-catch(err){
-  alert("Invalid Room Name");
-}
+
 //-------------------------------------------------------
 
 //------------------Data Sending-------------------------
