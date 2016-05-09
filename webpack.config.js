@@ -4,7 +4,7 @@
 
 module.exports = {
     entry: {
-        javascript: "./src/index.js",
+        javascript: "./src/room.js",
         html: "./src/index.html"
     },
     output: {
