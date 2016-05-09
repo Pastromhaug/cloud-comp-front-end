@@ -36,7 +36,7 @@ var loader = new THREE.PLYLoader();
 //--------------PLY mesh rendering----------------------
 
 //loader.load( "../src/models/gateslab3.ply", function ( geometry ) {
-try{loader.load( "../src/models/" + roomFilename, function ( geometry ) {
+loader.load( "../src/models/" + roomFilename, function ( geometry ) {
       var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
       var mesh = new THREE.Mesh( geometry, material );
       plz_wrk = mesh;
@@ -45,10 +45,7 @@ try{loader.load( "../src/models/" + roomFilename, function ( geometry ) {
       plz_wrk.rotation.x += -Math.PI / 2;
       plz_wrk.rotation.z += Math.PI / 2 + .5;
   } );
-}
-catch(err){
-  alert("Invalid Room Name");
-}
+
 //-------------------------------------------------------
 
 //------------------Data Sending-------------------------
