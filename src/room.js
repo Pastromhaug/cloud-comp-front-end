@@ -1,3 +1,5 @@
+//set rooms background
+document.body.style.background = '#000000';
 
 // scene, camera, rendering setup
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -11,12 +13,20 @@ effect.setSize(window.innerWidth, window.innerHeight);
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
+//hide the renderer
+renderer.domElement.style.display="none";
+renderer.domElement.id="canvasVR";
+
 var light = new THREE.AmbientLight( 0xffffff );
 scene.add( light );
 camera.position.z = 20;
 var plz_wrk;
 
 var loader = new THREE.PLYLoader();
+
+//create a spinner
+var spinner = new Spinner().spin()
+document.body.appendChild(spinner.el)
 
 // ------------ Point cloud rendering---------------------
 //loader.addEventListener('load', function (event) {
@@ -42,9 +52,13 @@ loader.load( "../src/models/" + roomFilename, function ( geometry ) {
     plz_wrk = mesh;
 
     scene.add( mesh );
+    document.getElementsByClassName("spinner")[0].style.display="none";
+    renderer.domElement.style.display="block";
+
     plz_wrk.rotation.x += -Math.PI / 2;
     plz_wrk.rotation.z += Math.PI / 2 + .5;
  } );
+//
 //-------------------------------------------------------
 
 //------------------Data Sending-------------------------
