@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --port 8000 --hot --inline --progress --colors"
+    "start": "webpack-dev-server --port 8000 --hot --inline --progress --colors",
+    "build": "webpack"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/Pastromhaug/cloud-comp-front-end.git"
   },
@@ -30,6 +31,7 @@
     "three": "^0.74.0",
     "three-firstperson-vr-controls": "^0.1.0",
     "three-vrcontrols": "^1.0.0",
-    "three-vreffect": "^1.0.0"
+    "three-vreffect": "^1.0.0",
+    "webvr-polyfill": "^0.2.7"
   }
 }
