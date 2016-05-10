@@ -107,19 +107,19 @@ function parseInput(data){
   return data
 }
 
-// //loadHugh(){
-//   //mtlLoader.load('./models/hughLaurie/house.mtl', function(materials){
-//     //materials.preload();
-//     objLoader.setMaterials(materials);
-//     objLoader.load('./models/hughLaurie/house.obj', function(geometry){
-//       geometry.scale.set(.001,.001,.001);
-//       cubeList.push(geometry);
-//       scene.add(geometry);
-//       mesh = geometry;
-//
-//     });
-//   });
-// }
+function loadHugh(){
+  mtlLoader.load('./models/Ironman/IronMan.mtl', function(materials){
+    materials.preload();
+    objLoader.setMaterials(materials);
+    objLoader.load('./models/Ironman/IronMan.obj', function(geometry){
+      geometry.scale.set(.01,.01,.01);
+      cubeList.push(geometry);
+      scene.add(geometry);
+      mesh = geometry;
+
+    });
+  });
+}
 
 //Update cube positions
 function updateCubes (cubes){
@@ -127,16 +127,16 @@ function updateCubes (cubes){
     var lst = null;
     var mesh;
     if(!cubeList[i]){
-      //loadHugh();
-      //var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
-      //mesh.dynamic = true;
-      objLoader.load('./models/hughLaurie/house.obj', function(geometry){
-        geometry.scale.set(.001,.001,.001);
-        cubeList.push(geometry);
-        scene.add(geometry);
-        mesh = geometry;
-
-        });
+      loadHugh();
+      // var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
+      // mesh.dynamic = true;
+      // objLoader.load('./models/hughLaurie/house.obj', function(geometry){
+      //   geometry.scale.set(.001,.001,.001);
+      //   cubeList.push(geometry);
+      //   scene.add(geometry);
+      //   mesh = geometry;
+      //
+      //  });
       }
       else{
         var mesh = cubeList[i];
@@ -145,9 +145,9 @@ function updateCubes (cubes){
       mesh.position.x = parseFloat(cubes[i][1]);
       mesh.position.y = parseFloat(cubes[i][2]);
       mesh.position.z = parseFloat(cubes[i][3]);
-      mesh.rotation.x = parseFloat(cubes[i][4]);
-      mesh.rotation.y = parseFloat(cubes[i][5]);
-      mesh.rotation.z = parseFloat(cubes[i][6]);
+      mesh.rotation.z = parseFloat(cubes[i][4]);
+      mesh.rotation.x = parseFloat(cubes[i][5]);
+      mesh.rotation.y = parseFloat(cubes[i][6]);
     }
     //var j = i;
     //for (i; i < cubeList.length; i++ ){
