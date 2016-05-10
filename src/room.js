@@ -25,9 +25,15 @@ var plz_wrk;
 var loader = new THREE.PLYLoader();
 
 try{loader.load( "../src/models/" + roomFilename, function ( geometry ) {
+
+
     var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 400, vertexColors: THREE.VertexColors} );
     var mesh = new THREE.Mesh( geometry, material );
     plz_wrk = mesh;
+
+    document.getElementsByClassName("spinner")[0].style.display="none";
+    renderer.domElement.style.display="block";
+
 
     scene.add( mesh );
     plz_wrk.rotation.x += -Math.PI / 2;
@@ -45,6 +51,11 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.sortObjects = false;
 container.appendChild( renderer.domElement );
 
+renderer.domElement.style.display="none";
+var spinner = new Spinner().spin();
+document.body.appendChild(spinner.el);
+
+
 controls = new THREE.VRControls( camera );
 effect = new THREE.VREffect( renderer );
 var fpVrControls = new THREE.FirstPersonVRControls(camera, scene);
@@ -54,6 +65,7 @@ if ( WEBVR.isAvailable() === true ) {
 
     document.body.appendChild( WEBVR.getButton( effect ) );
 }
+
 
 animate();
 function animate(timestamp = null) {
