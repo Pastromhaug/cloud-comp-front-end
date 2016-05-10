@@ -76,7 +76,7 @@ function animate(timestamp = null) {
 
 function render(timestamp) {
     controls.update();
-    //fpVrControls.update(timestamp);
+    fpVrControls.update(timestamp);
     effect.render( scene, camera );
 }
 
