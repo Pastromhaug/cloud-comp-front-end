@@ -21,6 +21,7 @@ var light = new THREE.AmbientLight( 0xffffff );
 scene.add( light );
 camera.position.z = 20;
 
+
 var plz_wrk;
 var loader = new THREE.PLYLoader();
 
@@ -85,6 +86,6 @@ function render(timestamp) {
 function sendNow(){
     sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, camera.quaternion);
 }
-var run = setInterval(sendNow, 16);
+var run = setInterval(sendNow, 50);
 
 //-------------------------------------------------------

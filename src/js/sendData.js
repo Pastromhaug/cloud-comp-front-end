@@ -1,7 +1,8 @@
 // Cube Variables
 var cubeList = [];
-var cubeGeometry = new THREE.BoxGeometry( 0.25,0.25,0.25 );
-var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var numUsers = 0;
+//var cubeGeometry = new THREE.BoxGeometry( 0.25,0.25,0.25 );
+//var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var scene = new THREE.Scene();
 var id = null;
 var objLoader = new THREE.OBJLoader();
@@ -32,7 +33,7 @@ function getFromUrl(){
 getFromUrl();
 
 //Socket info
-var ip = "ws://10.148.8.211"  //Change this to server IP
+var ip = "ws://10.148.7.124"  //Change this to server IP
 var loadBalancePort = "7000"  //Change this to Load Balancer Server port
 var roomPort = null;
 var socket = null;
@@ -46,16 +47,24 @@ initSocket.onopen = function() {
 }
 
 initSocket.onmessage = function(event) {
-  console.log("Got Port: "+event.data);
-  roomIP = event.data//.slice(11);
-  var ipAndPort = ip + ":" + roomIP + "/";
-  if(roomIP != null){
-    initSocket.close();
-    setTimeout(function(){ createSocket(ipAndPort);}, 500);
-  }
-  else{
-    initSocket.send("changeRoom:"+mapName);
-  }
+    if(event.data == "BAD ID"){
+      window.alert("Error: Invalid Room ID. Explore the room on your own or go back and check your input, loser.");
+      return;
+    }
+    if(event.data == "ROOM FULL"){
+      window.alert("Room full. You are in a room by yourself.")
+      return;
+    }
+    console.log("Got Port: "+event.data);
+    roomIP = event.data//.slice(11);
+    var ipAndPort = ip + ":" + roomIP + "/";
+    if(roomIP != null){
+      initSocket.close();
+      setTimeout(function(){ createSocket(ipAndPort);}, 500);
+    }
+    else{
+      initSocket.send("changeRoom:"+mapName);
+    }
 }
 
 initSocket.onclose = function(){
@@ -108,46 +117,67 @@ function parseInput(data){
 }
 
 function loadHugh(){
-  mtlLoader.load('./models/Ironman/IronMan.mtl', function(materials){
+  mtlLoader.load('./models/legoman/Lego.mtl', function(materials){
     materials.preload();
     objLoader.setMaterials(materials);
-    objLoader.load('./models/Ironman/IronMan.obj', function(geometry){
-      geometry.scale.set(.01,.01,.01);
+    objLoader.load('./models/legoman/Lego.obj', function(geometry){
+      geometry.scale.set(.06,.06,.06);
       cubeList.push(geometry);
       scene.add(geometry);
-      mesh = geometry;
 
     });
   });
 }
 
+function checkLists(cubes){
+  //console.log("cubes: " + cubes.length);
+  //console.log("numUsers: " + numUsers);
+  while(cubes.length != numUsers){
+      if(cubes.length > numUsers){
+        //console.log("numUsers:" + numUsers);
+        numUsers++;
+        loadHugh();
+      }
+      if(cubes.length < numUsers){
+        //console.log("Deleting user");
+        numUsers--;
+        object = cubeList.pop();
+        scene.remove(object);
+
+      }
+  }
+  return;
+}
+
 //Update cube positions
 function updateCubes (cubes){
+  checkLists(cubes);
+  var mesh;
   for(var i = 0; i<cubes.length; i++){
-    var lst = null;
-    var mesh;
-    if(!cubeList[i]){
-      loadHugh();
-      // var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
-      // mesh.dynamic = true;
-      // objLoader.load('./models/hughLaurie/house.obj', function(geometry){
-      //   geometry.scale.set(.001,.001,.001);
-      //   cubeList.push(geometry);
-      //   scene.add(geometry);
-      //   mesh = geometry;
-      //
-      //  });
-      }
-      else{
-        var mesh = cubeList[i];
-      }
+    // var lst = null;
+    // var mesh;
+    // if(!cubeList[i]){
+    //   loadHugh();
+    //   // var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
+    //   // mesh.dynamic = true;
+    //   // objLoader.load('./models/hughLaurie/house.obj', function(geometry){
+    //   //   geometry.scale.set(.001,.001,.001);
+    //   //   cubeList.push(geometry);
+    //   //   scene.add(geometry);
+    //   //   mesh = geometry;
+    //   //
+    //   //  });
+    //   }
+    //   else{
+      mesh = cubeList[i];
+//      }
 
       mesh.position.x = parseFloat(cubes[i][1]);
       mesh.position.y = parseFloat(cubes[i][2]);
       mesh.position.z = parseFloat(cubes[i][3]);
-      mesh.rotation.z = parseFloat(cubes[i][4]);
-      mesh.rotation.x = parseFloat(cubes[i][5]);
-      mesh.rotation.y = parseFloat(cubes[i][6]);
+      mesh.rotation.y = parseFloat(cubes[i][4]);
+      mesh.rotation.z = parseFloat(cubes[i][5]);
+      mesh.rotation.x = parseFloat(cubes[i][6]);
     }
     //var j = i;
     //for (i; i < cubeList.length; i++ ){
