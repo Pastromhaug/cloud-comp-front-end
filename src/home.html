@@ -1,0 +1,34 @@
+
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>My first Three.js app</title>
+    <style>
+  	    body { margin: 0; }
+  	    canvas { width: 100%; height: 100% }
+  	</style>
+</head>
+
+<body>
+  <form name="enterRoom" action="index.html" method="get" onsubmit="setCookie('room','gateslab3','group','asdf')">
+    Select Room Type:<br>
+    <input type="radio" name="room" value="gateslab3" checked> Gates<br>
+    <br><br>
+    Enter Room ID:<br>
+    <input type="text" name="group"><br>
+    <input type="submit" value="Go">
+  </form>
+<script>
+  function setData(){
+    var select = document.getElementById('room');
+    var room_name = select.options[select.selectedIndex].value;
+    document.enterRoom.action = "index.html?room="+room_name;
+    enterRoom.submit();
+  }
+  function setCookie(c1name, c1value, c2name, c2value) {
+    document.cookie = c1name + "=" + c1value + "; " + c2name + "=" + c2value;
+}
+</script>
+</body>
+</header
+</html>

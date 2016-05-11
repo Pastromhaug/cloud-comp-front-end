@@ -86,6 +86,6 @@ function render(timestamp) {
 function sendNow(){
     sendData({x:camera.position.x, y:camera.position.y, z:camera.position.z}, camera.quaternion);
 }
-var run = setInterval(sendNow, 50);
+var run = setInterval(sendNow, 25);
 
 //-------------------------------------------------------

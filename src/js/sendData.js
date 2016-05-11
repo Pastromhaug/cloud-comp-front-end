@@ -1,8 +1,6 @@
 // Cube Variables
 var cubeList = [];
 var numUsers = 0;
-//var cubeGeometry = new THREE.BoxGeometry( 0.25,0.25,0.25 );
-//var cubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var scene = new THREE.Scene();
 var id = null;
 var objLoader = new THREE.OBJLoader();
@@ -48,7 +46,7 @@ initSocket.onopen = function() {
 
 initSocket.onmessage = function(event) {
     if(event.data == "BAD ID"){
-      window.alert("Error: Invalid Room ID. Explore the room on your own or go back and check your input, loser.");
+      window.alert("Error: Invalid Room ID. Explore the room on your own or go back and check your input.");
       return;
     }
     if(event.data == "ROOM FULL"){
@@ -87,7 +85,7 @@ function createSocket(addr){
       }
       else {
         data = data.replace(/\s+/g, '');
-        console.log(data);
+        //console.log(data);
         data = parseInput(data);
         //console.log(data);
         updateCubes(data);
@@ -104,7 +102,6 @@ function createSocket(addr){
 function parseInput(data){
   data = data.slice(2,data.length-2);
   data = data.split('\",\"');
-  //datum = data[0].slice(1,data[0].length-1).split('\":\"');
   var j;
   for (i=0; i<data.length;i++){
     data[i] = data[i].split(/[":"|,]+/);
@@ -127,19 +124,35 @@ function loadHugh(){
 
     });
   });
-}
 
+
+  // var mtlLoader = new THREE.MTLLoader();
+  //   mtlLoader.setBaseUrl( './models/legoman/' );
+  //   mtlLoader.setPath( './models/legoman/' );
+  //   mtlLoader.load( 'Lego.mtl', function( materials ) {
+  //
+  //       materials.preload();
+  //
+  //       var objLoader = new THREE.OBJLoader();
+  //       objLoader.setMaterials( materials );
+  //       objLoader.setPath( './models/legoman/' );
+  //       objLoader.load( 'Lego.obj', function ( object ) {
+  //
+  //
+  //           scene.add( object );
+  //
+  //       });
+  //
+  //   });
+}
+//
 function checkLists(cubes){
-  //console.log("cubes: " + cubes.length);
-  //console.log("numUsers: " + numUsers);
   while(cubes.length != numUsers){
       if(cubes.length > numUsers){
-        //console.log("numUsers:" + numUsers);
         numUsers++;
         loadHugh();
       }
       if(cubes.length < numUsers){
-        //console.log("Deleting user");
         numUsers--;
         object = cubeList.pop();
         scene.remove(object);
@@ -154,36 +167,14 @@ function updateCubes (cubes){
   checkLists(cubes);
   var mesh;
   for(var i = 0; i<cubes.length; i++){
-    // var lst = null;
-    // var mesh;
-    // if(!cubeList[i]){
-    //   loadHugh();
-    //   // var mesh = new THREE.Mesh( cubeGeometry,cubeMaterial );
-    //   // mesh.dynamic = true;
-    //   // objLoader.load('./models/hughLaurie/house.obj', function(geometry){
-    //   //   geometry.scale.set(.001,.001,.001);
-    //   //   cubeList.push(geometry);
-    //   //   scene.add(geometry);
-    //   //   mesh = geometry;
-    //   //
-    //   //  });
-    //   }
-    //   else{
       mesh = cubeList[i];
-//      }
-
       mesh.position.x = parseFloat(cubes[i][1]);
-      mesh.position.y = parseFloat(cubes[i][2]);
+      mesh.position.y = parseFloat(cubes[i][2])-1;
       mesh.position.z = parseFloat(cubes[i][3]);
       mesh.rotation.y = parseFloat(cubes[i][4]);
       mesh.rotation.z = parseFloat(cubes[i][5]);
       mesh.rotation.x = parseFloat(cubes[i][6]);
     }
-    //var j = i;
-    //for (i; i < cubeList.length; i++ ){
-    //  scene.remove(cubeList[i]);
-    //}
-    //cubeList = cubeList.slice(0,j+1);
 }
 
 function convertQuat(q1){
